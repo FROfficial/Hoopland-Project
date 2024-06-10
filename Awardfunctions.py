@@ -61,24 +61,28 @@ def calcAwards(ply_df):
         # Calculate 'Team' Awards
         #   To be on the All-Star team you must first qualify to be considered
         if (allStarQualification(curPly)):
-            # Determine which conference the player is in.
+            # Determine which conference the player is in and add it to the array, anybody past index 15 will be erased once the loop ends.
             if (determineConference(curPly[1]) == "EAST"):
-                # Check if the AS team is not full add the player
-                if (len(eastAS) < 15):
-                    eastAS.append(curPly)
-            if (determineConference(curPly[1]) == "WEST"):
-                if (len(westAS) < 15):
-                    westAS.append(curPly)
+                eastAS.append(curPly)
 
-        # Organize the All-Star teams to make it easier to compare when the team fills up.
-        westAS.sort(key=lambda x: x[32])
-        eastAS.sort(key=lambda x: x[32])
+            if (determineConference(curPly[1]) == "WEST"):
+                westAS.append(curPly)
+
+        # Sort the All-Star by OVR teams to make it easier to compare when the team fills up.
+        westAS.sort(key=lambda x: x['OVR'])
+        eastAS.sort(key=lambda x: x['OVR'])
         westAS.reverse()
         eastAS.reverse()
 
-    printIndividualAwards(MVP_tracker, DPOY_tracker, ROTY_tracker, sixMOTY_tracker, Scoring_Champ, Rebound_Champ, Steals_Leader, Assists_Leader, Block_Champ)
+    # Delete any players who did not make the cut.
+    westAS[:] = westAS[:15]
+    eastAS[:] = eastAS[:15]
     
+    # pardon the long ass function call, this prints out the award winners in a formatted manner.
+    printIndividualAwards(MVP_tracker, DPOY_tracker, ROTY_tracker, sixMOTY_tracker, Scoring_Champ, Rebound_Champ, Steals_Leader, Assists_Leader, Block_Champ)
+    print()
     printAllStarTeam(westAS)
+    print()
     printAllStarTeam(eastAS)
     return (ply_df)
 
@@ -164,3 +168,13 @@ def printAllStarTeam (team):
     print("{:<30} {:<25} {:^8} {:^5} {:^7}".format("Player Name", "Team", "Position", "Year", "Overall"))
     for element in team:
         print("{:<30} {:<25} {:^8} {:^5} {:^7}".format(element[0], element[1], element[2], element[3], element[32]))
+
+# This function will determine which of 2 players is more 'worthy' of a spot on the all Hoopland Teams.
+def comparePlayers(ply1, ply2):
+    # Use overall to determine who is better, and less minutes played as a tie-breaker (Reasoning: better in less time played).
+    if (ply1['OVR'] > ply2['OVR']):
+        return ply1
+    elif (ply1['OVR'] == ply2['OVR']):
+        return ply1 if ply1['MIN'] < ply2['MIN'] else ply2
+    else:
+        ply2
