@@ -58,9 +58,9 @@ def calcOVR(player, allPlayers):
     # Calculate Overall. (value added at the end is arbitrary, just to fit the uniform values of things such as 2K)
     rtg = round(oRtg + dRtg + OVRfunctions.statOvr(player, allPlayers, 'PER') + rRtg + OVRfunctions.statOvr(player, allPlayers, 'WS')) + 58
     if (rtg > 99):
-        # For those crazy MVP caliber players who break the scale
+        # For those crazy players who might break the scale
         rtg = 99
-    return rtg
+    return [rtg, oRtg, dRtg]
 
 # Find at what index the team ended up in for the team dataframe.
 def searchTeamIndex(plyTeam, team_df):
@@ -83,30 +83,32 @@ def WSvals(player_df, team_df):
         player_df.at[row.Index, 'WS'] = plyWS            
     return (player_df)
 
-# Calculate every players overall and add it to the dataframe and return that.
+# Calculate every players overall, def rating, and off rating and add it to the dataframe and return that.
 def calcAllOVRs(player_df):
     for row in player_df.itertuples(index=True, name= "Pandas"):
         plyOVR = calcOVR(player_df.iloc[row[0]], player_df)
-        player_df.at[row.Index, 'OVR'] = plyOVR
+        player_df.at[row.Index, 'OVR'] = plyOVR[0]
+        player_df.at[row.Index, 'OFF'] = plyOVR[1]
+        player_df.at[row.Index, 'DEF'] = plyOVR[2]
     return (player_df)
 
-def printPlayerInfo(the_df):
+def printPlayerInfo(df):
     # The Header
     print("{:<28} {:<28} {:<5} {:<5}".format("Player Name", "Team", "Year","OVR"))
     
-    # This formatting stuff has me slightly confused .. but it prints out what I want so I don't mind
-    for row in the_df.itertuples(index=True, name="Pandas"):
-        print("{:<28} {:<28} {:<5} {:<5}".format(row[1], row[2], row[4], row[33]))
+    # Print out each formatted row.
+    for row in df.itertuples(index=True, name="Pandas"):
+        print("{:<28} {:<28} {:<5} {:<5}".format(df.at[row.Index, 'Player Name'], df.at[row.Index, 'Team'], df.at[row.Index, 'Position'], df.at[row.Index, 'OVR']))
 
 nu_df = WSvals(df_p, df_t)
 nu_df = calcAllOVRs(nu_df)
-nu_df = nu_df.sort_values(by='OVR')
+nu_df = nu_df.sort_values(by='OVR', ascending=False)
 nu_df = Awardfunctions.calcAwards(nu_df)
 
 
 # printPlayerInfo(nu_df)
 
-#   -   Test Calls:    -
+#   -   Test Calls:    - (* some function definitions may have changed)
 # calcOVR(calcWS(temp_player, df_t, temp_team, df_p), temp_player, df_p)
 # calcWS(temp_player, df_t, temp_team, df_p)
 # print(OVRfunctions.Team.ATLANTA_TALONS.value)

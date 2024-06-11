@@ -74,16 +74,41 @@ def calcAwards(ply_df):
         westAS.reverse()
         eastAS.reverse()
 
+        #   To be on an All-Defense team you must first qualify to be considered
+        if (allDefenseQualifications(curPly)):
+            # Add any player that fits those requirements, later on I will partition the array into all 3 teams.
+            allDefFirst.append(curPly)
+
+        allDefFirst.sort(key=lambda x: x['DEF'])
+        allDefFirst.reverse()
+
+    # Determine All-Defense and All-Hoopland Teams
+    allDefSecond = allDefFirst[15:len(allDefFirst)]
+    allDefThird = allDefSecond[30:len(allDefSecond)]
+
     # Delete any players who did not make the cut.
     westAS[:] = westAS[:15]
     eastAS[:] = eastAS[:15]
-    
+    allDefFirst[:] = allDefFirst[:15]
+    allDefSecond[:] = allDefSecond[:15]
+    allDefThird[:] = allDefThird[:15]
+
+    print(len(allDefFirst))
+    print(len(allDefSecond))
     # pardon the long ass function call, this prints out the award winners in a formatted manner.
-    printIndividualAwards(MVP_tracker, DPOY_tracker, ROTY_tracker, sixMOTY_tracker, Scoring_Champ, Rebound_Champ, Steals_Leader, Assists_Leader, Block_Champ)
-    print()
-    printAllStarTeam(westAS)
-    print()
-    printAllStarTeam(eastAS)
+    printIndividualAwards(MVP_tracker, DPOY_tracker, ROTY_tracker, sixMOTY_tracker, Scoring_Champ, Rebound_Champ, 
+                          Steals_Leader, Assists_Leader, Block_Champ)
+    print("\n{:^80}".format("West All-Star Team"))
+    printTeam(westAS)
+    print("\n{:^80}".format("East All-Star Team"))
+    printTeam(eastAS)
+    print("\n{:^80}".format("All-Defense First Team"))
+    printTeam(allDefFirst)
+    print("\n{:^80}".format("All-Defense Second Team"))
+    printTeam(allDefSecond)
+    print("\n{:^80}".format("All-Defense Third Team"))
+    printTeam(allDefThird)
+    
     return (ply_df)
 
 # Because Overall was designed to take into account defense, offense, WS, PER, and TS it is a great metric to determine who is the best.
@@ -149,7 +174,13 @@ def allStarQualification(ply):
     if (ply[32] >= 85):
         return True
     return False
-    
+
+# You need at least a 5.5 defensive rating to be considered for All-Defense.
+def allDefenseQualifications(ply):
+    if (ply['DEF'] >= 5.5):
+        return True
+    return False
+
 # Print the award winners in a formated manner ~pretty
 def printIndividualAwards (mvp, dpoy, roty, sixMoty, pts, reb, stl, ast, blk):
     print("{:<30} {:<30} {:<25} {:^8} {:^5} {:^7}".format("Award Name ", "Player Name", "Team", "Position", "Year", "Overall"))
@@ -164,10 +195,12 @@ def printIndividualAwards (mvp, dpoy, roty, sixMoty, pts, reb, stl, ast, blk):
     print("{:<30} {:<30} {:<25} {:^8} {:^5} {:^7}".format("Block Champion ", blk[0], blk[1], blk[2], blk[3], blk[32]))
 
 # Used to print the members of an All Star Team
-def printAllStarTeam (team):
+def printTeam (team):
     print("{:<30} {:<25} {:^8} {:^5} {:^7}".format("Player Name", "Team", "Position", "Year", "Overall"))
     for element in team:
-        print("{:<30} {:<25} {:^8} {:^5} {:^7}".format(element[0], element[1], element[2], element[3], element[32]))
+        print("{:<30} {:<25} {:^8} {:^5} {:^7}".format(element['Player Name'], element['Team'], element['Position'], element['Year'], element['OVR']))
+    
+    print() # white space after it prints
 
 # This function will determine which of 2 players is more 'worthy' of a spot on the all Hoopland Teams.
 def comparePlayers(ply1, ply2):
