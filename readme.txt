@@ -1,4 +1,4 @@
-Prologue:
+Intro:
 
  I will use this project to keep track of a simulated virtual basketball game. (via Hoop Land by Koality Games)
 

@@ -68,23 +68,27 @@ def calcAwards(ply_df):
             if (determineConference(curPly[1]) == "WEST"):
                 westAS.append(curPly)
 
-        # Sort the All-Star by OVR teams to make it easier to compare when the team fills up.
-        westAS.sort(key=lambda x: x['OVR'])
-        eastAS.sort(key=lambda x: x['OVR'])
-        westAS.reverse()
-        eastAS.reverse()
-
         #   To be on an All-Defense team you must first qualify to be considered
         if (allDefenseQualifications(curPly)):
             # Add any player that fits those requirements, later on I will partition the array into all 3 teams.
             allDefFirst.append(curPly)
 
-        allDefFirst.sort(key=lambda x: x['DEF'])
-        allDefFirst.reverse()
+        
+        #   To be on an All-Hoopland team you must first qualify
+        if (allHooplandQualifications(curPly)):
+            allHoopFirst.append(curPly)
 
+    # Sort the teams
+    westAS.sort(key=lambda x: x['OVR'], reverse= True)
+    eastAS.sort(key=lambda x: x['OVR'], reverse= True)
+    allDefFirst.sort(key=lambda x: x['DEF'], reverse= True)
+    allHoopFirst.sort(key=lambda x: x['DEF'] + x['OFF'], reverse=True)
+    
     # Determine All-Defense and All-Hoopland Teams
     allDefSecond = allDefFirst[15:len(allDefFirst)]
     allDefThird = allDefSecond[30:len(allDefSecond)]
+    allHoopSecond = allHoopFirst[15:len(allHoopFirst)]
+    allHoopThird = allHoopSecond[30:len(allHoopSecond)]
 
     # Delete any players who did not make the cut.
     westAS[:] = westAS[:15]
@@ -92,9 +96,11 @@ def calcAwards(ply_df):
     allDefFirst[:] = allDefFirst[:15]
     allDefSecond[:] = allDefSecond[:15]
     allDefThird[:] = allDefThird[:15]
+    allHoopFirst[:] = allHoopFirst[:15]
+    allHoopSecond[:] = allHoopSecond[:15]
+    allHoopThird[:] = allHoopThird[:15]
 
-    print(len(allDefFirst))
-    print(len(allDefSecond))
+    print(len(allHoopFirst))
     # pardon the long ass function call, this prints out the award winners in a formatted manner.
     printIndividualAwards(MVP_tracker, DPOY_tracker, ROTY_tracker, sixMOTY_tracker, Scoring_Champ, Rebound_Champ, 
                           Steals_Leader, Assists_Leader, Block_Champ)
@@ -108,6 +114,12 @@ def calcAwards(ply_df):
     printTeam(allDefSecond)
     print("\n{:^80}".format("All-Defense Third Team"))
     printTeam(allDefThird)
+    print("\n{:^80}".format("All-Hoopland First Team"))
+    printTeam(allHoopFirst)
+    print("\n{:^80}".format("All-Hoopland Second Team"))
+    printTeam(allHoopSecond)
+    print("\n{:^80}".format("All-Hoopland Third Team"))
+    printTeam(allHoopThird)
     
     return (ply_df)
 
@@ -178,6 +190,12 @@ def allStarQualification(ply):
 # You need at least a 5.5 defensive rating to be considered for All-Defense.
 def allDefenseQualifications(ply):
     if (ply['DEF'] >= 5.5):
+        return True
+    return False
+
+# You need to have a defensive + offensive rating of at least 10.5
+def allHooplandQualifications(ply):
+    if((ply['DEF'] + ply['OFF']) > 10.5):
         return True
     return False
 
