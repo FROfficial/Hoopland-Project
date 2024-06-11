@@ -1,3 +1,4 @@
+# This script handles all the calculation operations and creates a csv file for any files that are created.
 # Given my fantasy league. I will use Win Shares, Player Efficiency Rating, and 
 # Custom Offensive and Defensive Ratings to help determine awards and rating.
 
@@ -105,8 +106,7 @@ nu_df = calcAllOVRs(nu_df)
 nu_df = nu_df.sort_values(by='OVR', ascending=False)
 nu_df = Awardfunctions.calcAwards(nu_df)
 
-
-# printPlayerInfo(nu_df)
+printPlayerInfo(nu_df)
 
 #   -   Test Calls:    - (* some function definitions may have changed)
 # calcOVR(calcWS(temp_player, df_t, temp_team, df_p), temp_player, df_p)

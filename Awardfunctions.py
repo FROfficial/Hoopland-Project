@@ -1,5 +1,3 @@
-import OVRfunctions
-
 # Use this function to help determine the conference a player is in. (Used in conjunction to determine All-Star Status, and All-League Status')
 def determineConference(ply_t):
     # Use arrays to determine whether a player plays in the East or West.
@@ -120,7 +118,7 @@ def calcAwards(ply_df):
     printTeam(allHoopSecond)
     print("\n{:^80}".format("All-Hoopland Third Team"))
     printTeam(allHoopThird)
-    
+
     return (ply_df)
 
 # Because Overall was designed to take into account defense, offense, WS, PER, and TS it is a great metric to determine who is the best.
