@@ -6,6 +6,7 @@ import pandas as pd
 import WSfunctions
 import OVRfunctions
 import Awardfunctions
+import teamFunctions
 
 df_t = pd.read_csv("HL_2024_team_stats.csv", header = 0)
 df_p = pd.read_csv("HL_2024_player_stats.csv", header = 0)
@@ -101,12 +102,14 @@ def printPlayerInfo(df):
     for row in df.itertuples(index=True, name="Pandas"):
         print("{:<28} {:<28} {:<5} {:<5}".format(df.at[row.Index, 'Player Name'], df.at[row.Index, 'Team'], df.at[row.Index, 'Position'], df.at[row.Index, 'OVR']))
 
-nu_df = WSvals(df_p, df_t)
-nu_df = calcAllOVRs(nu_df)
-nu_df = nu_df.sort_values(by='OVR', ascending=False)
-nu_df = Awardfunctions.calcAwards(nu_df)
+#nu_df = WSvals(df_p, df_t)
+#nu_df = calcAllOVRs(nu_df)
+#nu_df = nu_df.sort_values(by='OVR', ascending=False)
+#nu_df = Awardfunctions.calcAwards(nu_df)
 
-printPlayerInfo(nu_df)
+#printPlayerInfo(nu_df)
+
+teamFunctions.runTeamFunctions(df_t)
 
 #   -   Test Calls:    - (* some function definitions may have changed)
 # calcOVR(calcWS(temp_player, df_t, temp_team, df_p), temp_player, df_p)

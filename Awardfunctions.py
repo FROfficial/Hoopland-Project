@@ -1,12 +1,10 @@
+import teamFunctions
 # Use this function to help determine the conference a player is in. (Used in conjunction to determine All-Star Status, and All-League Status')
 def determineConference(ply_t):
     # Use arrays to determine whether a player plays in the East or West.
-    eastArr = ["New York Empire", "Indiana Overdrive", "Atlanta Talons", "Boston Charms", "Chicago Blues", "Washington Agents", "Miami Tides",
-                "Detroit Drift", "Brooklyn Ballers", "Toronto Towers", "Philadelphia Founders", "Cleveland Gladiators", "Orlando Orbiters", 
-                "Charlotte Stingers", "Milwaukee Spartans"]
-    westArr = ["Los Angeles Stars", "New Orleans Airmen", "San Diego Surf", "Houston Cosmos", "Phoenix Firebirds", "Portland Roses",
-                "San Francisco Quakes", "Utah Summit", "Denver Miners", "Minnesota Sabers", "Oklahoma City Outlaws", "San Antonio Sheriffs",
-                "Dallas Knights", "Memphis Rockers", "Sacramento Royals"]
+    eastArr = teamFunctions.teamArr[:15]
+    westArr = teamFunctions.teamArr[15:30]
+
     # Comparisons
     for element in eastArr:
         if element == ply_t:
@@ -98,7 +96,6 @@ def calcAwards(ply_df):
     allHoopSecond[:] = allHoopSecond[:15]
     allHoopThird[:] = allHoopThird[:15]
 
-    print(len(allHoopFirst))
     # pardon the long ass function call, this prints out the award winners in a formatted manner.
     printIndividualAwards(MVP_tracker, DPOY_tracker, ROTY_tracker, sixMOTY_tracker, Scoring_Champ, Rebound_Champ, 
                           Steals_Leader, Assists_Leader, Block_Champ)
