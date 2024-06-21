@@ -102,9 +102,11 @@ def printPlayerInfo(df):
     for row in df.itertuples(index=True, name="Pandas"):
         print("{:<28} {:<28} {:<5} {:<5}".format(df.at[row.Index, 'Player Name'], df.at[row.Index, 'Team'], df.at[row.Index, 'Position'], df.at[row.Index, 'OVR']))
 
-#nu_df = WSvals(df_p, df_t)
-#nu_df = calcAllOVRs(nu_df)
-#nu_df = nu_df.sort_values(by='OVR', ascending=False)
+
+
+nu_df = WSvals(df_p, df_t)
+nu_df = calcAllOVRs(nu_df)
+nu_df = nu_df.sort_values(by='OVR', ascending=False)
 #nu_df = Awardfunctions.calcAwards(nu_df)
 
 #printPlayerInfo(nu_df)

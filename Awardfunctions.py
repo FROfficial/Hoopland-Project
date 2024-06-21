@@ -214,13 +214,3 @@ def printTeam (team):
         print("{:<30} {:<25} {:^8} {:^5} {:^7}".format(element['Player Name'], element['Team'], element['Position'], element['Year'], element['OVR']))
     
     print() # white space after it prints
-
-# This function will determine which of 2 players is more 'worthy' of a spot on the all Hoopland Teams.
-def comparePlayers(ply1, ply2):
-    # Use overall to determine who is better, and less minutes played as a tie-breaker (Reasoning: better in less time played).
-    if (ply1['OVR'] > ply2['OVR']):
-        return ply1
-    elif (ply1['OVR'] == ply2['OVR']):
-        return ply1 if ply1['MIN'] < ply2['MIN'] else ply2
-    else:
-        ply2
