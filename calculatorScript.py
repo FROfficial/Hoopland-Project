@@ -107,9 +107,9 @@ def printPlayerInfo(df):
 nu_df = WSvals(df_p, df_t)
 nu_df = calcAllOVRs(nu_df)
 nu_df = nu_df.sort_values(by='OVR', ascending=False)
-#nu_df = Awardfunctions.calcAwards(nu_df)
+nu_df = Awardfunctions.calcAwards(nu_df)
 
-#printPlayerInfo(nu_df)
+printPlayerInfo(nu_df)
 
 teamFunctions.runTeamFunctions(df_t)
 
