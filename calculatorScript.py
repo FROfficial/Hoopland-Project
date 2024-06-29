@@ -8,8 +8,8 @@ import OVRfunctions
 import Awardfunctions
 import teamFunctions
 
-df_t = pd.read_csv("2024_team_regular_season.csv", header = 0)
-df_p = pd.read_csv("2024_player_regular_season.csv", header = 0)
+df_t = pd.read_csv("C:/Users/fabia/OneDrive/Documents/Hoopland Project/hoopland_history_csv/2024_team_regular_season.csv", header = 0)
+df_p = pd.read_csv("C:/Users/fabia/OneDrive/Documents/Hoopland Project/hoopland_history_csv/2024_player_regular_season.csv", header = 0)
 
 # function that will calculate win shares loosely based on the idea given by BasketBall Reference.
 # additionally, the Defensive Win Shares part of the overall concept does not fit well with statistics
@@ -109,9 +109,9 @@ nu_df = calcAllOVRs(nu_df)
 nu_df = nu_df.sort_values(by='OVR', ascending=False)
 nu_df = Awardfunctions.calcAwards(nu_df)
 
-printPlayerInfo(nu_df)
+#printPlayerInfo(nu_df)
 
-teamFunctions.runTeamFunctions(df_t)
+#teamFunctions.runTeamFunctions(df_t)
 
 #   -   Test Calls:    - (* some function definitions may have changed)
 # calcOVR(calcWS(temp_player, df_t, temp_team, df_p), temp_player, df_p)

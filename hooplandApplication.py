@@ -1,8 +1,9 @@
 # I will use tkinter to create the interface to the application cataloguing the history of the league.
 from tkinter import *
 import csvFunctions
+import teamFunctions
 
-# Universal Traits:
+# Universal Text Traits:
 text_font = ("Myriad", 10)
 button_width = 30
 button_height = 2
@@ -20,8 +21,8 @@ def titleDesign():
     Label(root, text = label_text, font= label_font).pack()
 
 def menuOptions():
-    description_text = "\n\n\n"
-    Label(root, text = description_text, font= text_font).pack(pady=5)
+    description_text = "Choose from one of the following:\n\n"
+    Label(root, text = description_text, font= text_font).pack(pady=10)
 
     # Option 1: Review every year
     button_text = "View Timeline"
@@ -56,7 +57,7 @@ def createScrollWheel(yearsArr):
 
     # Example content inside the frame
     for element in yearsArr:
-        Button(frame, text=f"{element}", font= text_font, width= button_width, height= button_height).pack(padx= 180)
+        Button(frame, text=f"{element}", font= text_font, width= button_width, height= button_height, command= on_year_clicked).pack(padx= 180)
 
     Button(frame, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_return).pack()
 
@@ -213,13 +214,12 @@ def on_team_graphics():
 
     description_text = "Select a team to view.\n\n"
     Label(root, text = description_text, font= text_font).pack(pady=10)
-    yrs = csvFunctions.listYears()
-    if (len(yrs) != 1):
-        createScrollWheel(yrs)
-    else:
-        Button(root, text = "2024", font= text_font, width= button_width, height= button_height).pack()
-        Button(root, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_timeline_click).pack()
+    
+    temp = teamFunctions.teamArr
+    temp.sort()
 
+    createScrollWheel(temp)
+    
 def on_any_award():
     clear_window()
     titleDesign()
@@ -232,6 +232,12 @@ def on_any_award():
     else:
         Button(root, text = "2024", font= text_font, width= button_width, height= button_height).pack()
         Button(root, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_award_click).pack()
+
+def on_year_clicked():
+    clear_window()
+    titleDesign()
+
+
 
 # Create the window
 root = Tk()
@@ -247,7 +253,3 @@ menuOptions()
 # Run the window
 
 root.mainloop()
-
-#temp = csvFunctions.find_all_csv_files() 
-#print(temp)
-#print(csvFunctions.determineYear(temp))
