@@ -8,8 +8,8 @@ import OVRfunctions
 import Awardfunctions
 import teamFunctions
 
-df_t = pd.read_csv("HL_2024_team_stats.csv", header = 0)
-df_p = pd.read_csv("HL_2024_player_stats.csv", header = 0)
+df_t = pd.read_csv("2024_team_regular_season.csv", header = 0)
+df_p = pd.read_csv("2024_player_regular_season.csv", header = 0)
 
 # function that will calculate win shares loosely based on the idea given by BasketBall Reference.
 # additionally, the Defensive Win Shares part of the overall concept does not fit well with statistics
