@@ -109,13 +109,6 @@ nu_df = calcAllOVRs(nu_df)
 nu_df = nu_df.sort_values(by='OVR', ascending=False)
 nu_df = Awardfunctions.calcAwards(nu_df)
 
-#printPlayerInfo(nu_df)
+printPlayerInfo(nu_df)
 
-#teamFunctions.runTeamFunctions(df_t)
-
-#   -   Test Calls:    - (* some function definitions may have changed)
-# calcOVR(calcWS(temp_player, df_t, temp_team, df_p), temp_player, df_p)
-# calcWS(temp_player, df_t, temp_team, df_p)
-# print(OVRfunctions.Team.ATLANTA_TALONS.value)
-# searchTeamIndex("Atlanta Talons", df_t)
-# Awardfunctions.determineConference(nu_df.iloc[7][1])
+teamFunctions.runTeamFunctions(df_t)

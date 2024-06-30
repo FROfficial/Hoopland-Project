@@ -1,5 +1,3 @@
-import OVRfunctions
-
 # This file will contain functions that involve recording team OVR, and major stats including off rating, and def rating.
 teamArr = ["New York Empire", "Indiana Overdrive", "Atlanta Talons", "Boston Charms", "Chicago Blues", "Washington Agents", "Miami Tides",
                 "Detroit Drift", "Brooklyn Ballers", "Toronto Towers", "Philadelphia Founders", "Cleveland Gladiators", "Orlando Orbiters", 
@@ -11,7 +9,8 @@ teamArr = ["New York Empire", "Indiana Overdrive", "Atlanta Talons", "Boston Cha
 def runTeamFunctions(team_df):
     t_df = determineTeamRatings(team_df)
     t_df = determineTeamRanks(t_df)
-    listTeams(t_df)
+    #listTeams(t_df)
+    return t_df
 
 # When it comes to methods of measuring a teams greatness in Hoopland, I am rather limited.
 def determineTeamRatings(team_df):

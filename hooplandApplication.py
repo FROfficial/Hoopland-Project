@@ -1,14 +1,16 @@
 # I will use tkinter to create the interface to the application cataloguing the history of the league.
 from tkinter import *
+from tkinter import ttk
 import csvFunctions
 import teamFunctions
+import dfFunctions
 
-# Universal Text Traits:
+# - Universal Text Traits:
 text_font = ("Myriad", 10)
 button_width = 30
 button_height = 2
 
-# Function defintions:
+# UI Function definitions:
 def titleDesign():
     # First the title
     label_text = "Official Hoopland Tracker"
@@ -36,7 +38,7 @@ def menuOptions():
     button_text = "View Hall of Fame"
     Button(root, text= button_text, font= text_font, width= button_width, height= button_height, command=on_hof_click).pack()
 
-def createScrollWheel(yearsArr):
+def createScrollWheel(yearsArr, prev_func):
     main_frame = Frame(root)
     main_frame.pack(fill=BOTH, expand=True)
 
@@ -57,9 +59,9 @@ def createScrollWheel(yearsArr):
 
     # Example content inside the frame
     for element in yearsArr:
-        Button(frame, text=f"{element}", font= text_font, width= button_width, height= button_height, command= on_year_clicked).pack(padx= 180)
+        Button(frame, text=f"{element}", font= text_font, width= button_width, height= button_height).pack(padx= 180)
 
-    Button(frame, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_return).pack()
+    Button(frame, text = "Go Back", font= text_font, width= button_width, height= button_height, command= prev_func).pack()
 
     # Update the canvas to show the content
     frame.update_idletasks()
@@ -105,7 +107,7 @@ def on_award_click():
     button_text = "View Rookie of the Years"
     Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
-    button_text = "View Sixth Man of the Years"
+    button_text = "View 6th Man of the Years"
     Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
     button_text = "View Scoring Champions"
@@ -152,47 +154,35 @@ def on_viewMore():
     titleDesign()
 
     description_text = "In this section we observe yearly awards and accolades.\nSelecting an award will preview all years.\nAfter year selection, a preview appears with the top 10 candidates in a respective year and the winner."
-    styled_desciption = Label(root, text = description_text, font= text_font)
+    Label(root, text = description_text, font= text_font).pack(pady= 10)
 
     # Show options
     button_text = "View 1st All-Hoopland Teams"
-    styled_hlf = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
     button_text = "View 2nd All-Hoopland Teams"
-    styled_hls = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
     
     button_text = "View 3rd All-Hoopland Teams"
-    styled_hlt = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
     button_text = "View 1st All-Defense Teams"
-    styled_dff = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
     button_text = "View 2nd All-Defense Teams"
-    styled_dfs = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
     
     button_text = "View 3rd All-Defense Teams"
-    styled_dft = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
     button_text = "View Eastern Conference All-Stars"
-    styled_eas = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
     button_text = "View Western Conference All-Stars"
-    styled_was = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award)
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_any_award).pack()
 
     button_text = "Go Back"
-    styled_return = Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_award_click)
-
-    # pack
-    styled_desciption.pack(pady= 10)
-    styled_hlf.pack()
-    styled_hls.pack()
-    styled_hlt.pack()
-    styled_dff.pack()
-    styled_dfs.pack()
-    styled_dft.pack()
-    styled_eas.pack()
-    styled_was.pack()
-    styled_return.pack()
+    Button(root, text = button_text, font= text_font, width= button_width, height= button_height, command= on_award_click).pack()
 
 def on_seasons_and_champions():
     clear_window()
@@ -203,9 +193,9 @@ def on_seasons_and_champions():
     
     yrs = csvFunctions.listYears()
     if (len(yrs) != 1):
-        createScrollWheel(yrs)
+        createScrollWheel(yrs, on_timeline_click)
     else:
-        Button(root, text = "2024", font= text_font, width= button_width, height= button_height).pack()
+        Button(root, text = "2024", font= text_font, width= button_width, height= button_height, command= lambda: displaySeason(1)).pack()
         Button(root, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_timeline_click).pack()
         
 def on_team_graphics():
@@ -218,7 +208,7 @@ def on_team_graphics():
     temp = teamFunctions.teamArr
     temp.sort()
 
-    createScrollWheel(temp)
+    createScrollWheel(temp, on_timeline_click)
     
 def on_any_award():
     clear_window()
@@ -226,19 +216,120 @@ def on_any_award():
 
     description_text = "Select An Award Year.\n\n"
     Label(root, text = description_text, font= text_font).pack(pady=10)
+
     yrs = csvFunctions.listYears()
     if (len(yrs) != 1):
-        createScrollWheel(yrs)
+        createScrollWheel(yrs, on_award_click)
     else:
         Button(root, text = "2024", font= text_font, width= button_width, height= button_height).pack()
         Button(root, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_award_click).pack()
 
-def on_year_clicked():
+def displaySeason(yr):
     clear_window()
     titleDesign()
 
+    description_text = f"{2023 + yr} Regular Season"
+    Label(root, text = description_text, font= ("Myriad", 10, "bold")).pack()
 
+    # Use a Treeview to view season record.
+    szn = ttk.Treeview(root)
+    szn['columns'] = ("Team Name", "Won", "Lost", "%", "STL", "BLK", "AST", "PTS", "TO", "PF", "OFF", "DEF", "OVR")
 
+    # Define the columns
+    szn.column("#0", width = 0, stretch= NO)
+    szn.column("Team Name", width= 150, anchor= W)
+    szn.column("Won", width= 40, anchor= CENTER)
+    szn.column("Lost", width= 40, anchor= CENTER)
+    szn.column("%", width= 40, anchor= CENTER)
+    szn.column("STL", width= 30, anchor= CENTER)
+    szn.column("BLK", width= 30, anchor= CENTER)
+    szn.column("AST", width= 30, anchor= CENTER)
+    szn.column("PTS", width= 30, anchor= CENTER)
+    szn.column("TO", width= 30, anchor= CENTER)
+    szn.column("PF", width= 30, anchor= CENTER)
+    szn.column("OFF", width= 40, anchor= CENTER)
+    szn.column("DEF", width= 40, anchor= CENTER)
+    szn.column("OVR", width= 40, anchor= CENTER)
+    
+    # Create Headings
+    szn.heading("#0", text= "", anchor= W)
+    szn.heading("Team Name", text= "Team Name", anchor= W)
+    szn.heading("Won", text= "Won", anchor= CENTER)
+    szn.heading("Lost", text = "Lost", anchor= CENTER)
+    szn.heading("%", text= "%", anchor= CENTER)
+    szn.heading("STL", text = "STL", anchor= CENTER)
+    szn.heading("BLK", text = "BLK", anchor= CENTER)
+    szn.heading("AST", text = "AST", anchor= CENTER)
+    szn.heading("PTS", text = "PTS", anchor= CENTER)
+    szn.heading("TO", text = "TO", anchor= CENTER)
+    szn.heading("PF", text = "PF", anchor= CENTER)
+    szn.heading("OFF", text = "OFF", anchor= CENTER)
+    szn.heading("DEF", text = "DEF", anchor= CENTER)
+    szn.heading("OVR", text = "OVR", anchor= CENTER)
+
+    season_df = dfFunctions.findSeason(yr)
+    season_df = season_df.sort_values(by='GW', ascending=False)
+    for row in season_df.itertuples(index= True, name= 'Pandas'):
+        loss = 82 - season_df.at[row.Index, 'GW']
+        winrate = round(season_df.at[row.Index, 'GW'] / 82, 2)
+        szn.insert("", END, values= (season_df.at[row.Index, 'Team'], season_df.at[row.Index, 'GW'], loss, winrate, season_df.at[row.Index, 'STL'],
+                                      season_df.at[row.Index, 'BLK'], season_df.at[row.Index, 'AST'], season_df.at[row.Index, 'PTS'], 
+                                      season_df.at[row.Index, 'TO'], season_df.at[row.Index, 'PF'], int(season_df.at[row.Index, 'O NO.']),
+                                      int(season_df.at[row.Index, 'D NO.']), int(season_df.at[row.Index, 'OVR NO.'])))
+    post = ttk.Treeview(root)
+
+    post['columns'] = ("Team Name", "Won", "Lost", "%", "STL", "BLK", "AST", "PTS", "TO", "PF", "OFF", "DEF", "OVR")
+
+    # Define the columns
+    post.column("#0", width = 0, stretch= NO)
+    post.column("Team Name", width= 150, anchor= W)
+    post.column("Won", width= 40, anchor= CENTER)
+    post.column("Lost", width= 40, anchor= CENTER)
+    post.column("%", width= 40, anchor= CENTER)
+    post.column("STL", width= 30, anchor= CENTER)
+    post.column("BLK", width= 30, anchor= CENTER)
+    post.column("AST", width= 30, anchor= CENTER)
+    post.column("PTS", width= 30, anchor= CENTER)
+    post.column("TO", width= 30, anchor= CENTER)
+    post.column("PF", width= 30, anchor= CENTER)
+    post.column("OFF", width= 40, anchor= CENTER)
+    post.column("DEF", width= 40, anchor= CENTER)
+    post.column("OVR", width= 40, anchor= CENTER)
+    
+    # Create Headings
+    post.heading("#0", text= "", anchor= W)
+    post.heading("Team Name", text= "Team Name", anchor= W)
+    post.heading("Won", text= "Won", anchor= CENTER)
+    post.heading("Lost", text = "Lost", anchor= CENTER)
+    post.heading("%", text = "%", anchor= CENTER)
+    post.heading("STL", text = "STL", anchor= CENTER)
+    post.heading("BLK", text = "BLK", anchor= CENTER)
+    post.heading("AST", text = "AST", anchor= CENTER)
+    post.heading("PTS", text = "PTS", anchor= CENTER)
+    post.heading("TO", text = "TO", anchor= CENTER)
+    post.heading("PF", text = "PF", anchor= CENTER)
+    post.heading("OFF", text = "OFF", anchor= CENTER)
+    post.heading("DEF", text = "DEF", anchor= CENTER)
+    post.heading("OVR", text = "OVR", anchor= CENTER)
+
+    post_df = dfFunctions.findPost(yr)
+    post_df = post_df.sort_values(by='GW', ascending=False)
+    post_df.sort_values(by='GW')
+    for row in post_df.itertuples(index= True, name= 'Pandas'):
+        loss = post_df.at[row.Index, 'GP'] - post_df.at[row.Index, 'GW']
+        winrate = round(post_df.at[row.Index, 'GW'] / post_df.at[row.Index, 'GP'], 2)
+        post.insert("", END, values= (post_df.at[row.Index, 'Team'], post_df.at[row.Index, 'GW'], loss, winrate, post_df.at[row.Index, 'STL'],
+                                      post_df.at[row.Index, 'BLK'], post_df.at[row.Index, 'AST'], post_df.at[row.Index, 'PTS'], 
+                                      post_df.at[row.Index, 'TO'], post_df.at[row.Index, 'PF'], int(post_df.at[row.Index, 'O NO.']),
+                                      int(post_df.at[row.Index, 'D NO.']), int(post_df.at[row.Index, 'OVR NO.'])))
+
+    # pack
+    szn.pack()
+    description_text = f"{2023 + yr} Post Season"
+    Label(root, text = description_text, font= ("Myriad", 10, "bold")).pack()
+    post.pack()
+    Button(root, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_seasons_and_champions).pack()
+    
 # Create the window
 root = Tk()
 root.title('Hoopland Tracker Application')
@@ -251,5 +342,4 @@ titleDesign()
 menuOptions()
 
 # Run the window
-
 root.mainloop()

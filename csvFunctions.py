@@ -20,16 +20,18 @@ def find_all_csv_files():
 # Starting in 2024, this function allows me to have a program that doesn't have hard coded year values.
 def determineYear(file_list):
     size = len(file_list)
-    return (size / 2) + 2023
+    return (size / 4) + 2023
 
 # Create an array containing the list of all simulated years to facilitate self-refreshing options in the menu.
 def listYears():
     # Figure out the number of years by using previously defined functions and a for loop.
     fileArr = find_all_csv_files()
     currentYear = determineYear(fileArr)
+    currentYear = int(currentYear)
     yearsArr = [2024]
     if (currentYear != 2024):
-        for i in range(2024, currentYear):
+        yearsArr.pop()
+        for i in range(2024, currentYear+1):
             yearsArr.append(i)
     # return the array
     return yearsArr
