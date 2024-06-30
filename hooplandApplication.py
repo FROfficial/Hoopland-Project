@@ -233,23 +233,24 @@ def displaySeason(yr):
 
     # Use a Treeview to view season record.
     szn = ttk.Treeview(root)
-    szn['columns'] = ("Team Name", "Won", "Lost", "%", "STL", "BLK", "AST", "PTS", "TO", "PF", "OFF", "DEF", "OVR")
+    szn['columns'] = ("Team Name", "Won", "Lost", "%", "STL", "BLK", "REB", "AST", "PTS", "TO", "PF", "OFF", "DEF", "OVR")
 
     # Define the columns
     szn.column("#0", width = 0, stretch= NO)
-    szn.column("Team Name", width= 150, anchor= W)
+    szn.column("Team Name", width= 130, anchor= W)
     szn.column("Won", width= 40, anchor= CENTER)
     szn.column("Lost", width= 40, anchor= CENTER)
     szn.column("%", width= 40, anchor= CENTER)
     szn.column("STL", width= 30, anchor= CENTER)
     szn.column("BLK", width= 30, anchor= CENTER)
+    szn.column("REB", width= 40, anchor= CENTER)
     szn.column("AST", width= 30, anchor= CENTER)
-    szn.column("PTS", width= 30, anchor= CENTER)
+    szn.column("PTS", width= 40, anchor= CENTER)
     szn.column("TO", width= 30, anchor= CENTER)
     szn.column("PF", width= 30, anchor= CENTER)
-    szn.column("OFF", width= 40, anchor= CENTER)
-    szn.column("DEF", width= 40, anchor= CENTER)
-    szn.column("OVR", width= 40, anchor= CENTER)
+    szn.column("OFF", width= 30, anchor= CENTER)
+    szn.column("DEF", width= 30, anchor= CENTER)
+    szn.column("OVR", width= 30, anchor= CENTER)
     
     # Create Headings
     szn.heading("#0", text= "", anchor= W)
@@ -259,6 +260,7 @@ def displaySeason(yr):
     szn.heading("%", text= "%", anchor= CENTER)
     szn.heading("STL", text = "STL", anchor= CENTER)
     szn.heading("BLK", text = "BLK", anchor= CENTER)
+    szn.heading("REB", text = "REB", anchor= CENTER)
     szn.heading("AST", text = "AST", anchor= CENTER)
     szn.heading("PTS", text = "PTS", anchor= CENTER)
     szn.heading("TO", text = "TO", anchor= CENTER)
@@ -273,28 +275,29 @@ def displaySeason(yr):
         loss = 82 - season_df.at[row.Index, 'GW']
         winrate = round(season_df.at[row.Index, 'GW'] / 82, 2)
         szn.insert("", END, values= (season_df.at[row.Index, 'Team'], season_df.at[row.Index, 'GW'], loss, winrate, season_df.at[row.Index, 'STL'],
-                                      season_df.at[row.Index, 'BLK'], season_df.at[row.Index, 'AST'], season_df.at[row.Index, 'PTS'], 
+                                      season_df.at[row.Index, 'BLK'], season_df.at[row.Index, 'REB'], season_df.at[row.Index, 'AST'], season_df.at[row.Index, 'PTS'], 
                                       season_df.at[row.Index, 'TO'], season_df.at[row.Index, 'PF'], int(season_df.at[row.Index, 'O NO.']),
                                       int(season_df.at[row.Index, 'D NO.']), int(season_df.at[row.Index, 'OVR NO.'])))
     post = ttk.Treeview(root)
 
-    post['columns'] = ("Team Name", "Won", "Lost", "%", "STL", "BLK", "AST", "PTS", "TO", "PF", "OFF", "DEF", "OVR")
+    post['columns'] = ("Team Name", "Won", "Lost", "%", "STL", "BLK", "REB", "AST", "PTS", "TO", "PF", "OFF", "DEF", "OVR")
 
     # Define the columns
     post.column("#0", width = 0, stretch= NO)
-    post.column("Team Name", width= 150, anchor= W)
+    post.column("Team Name", width= 130, anchor= W)
     post.column("Won", width= 40, anchor= CENTER)
     post.column("Lost", width= 40, anchor= CENTER)
     post.column("%", width= 40, anchor= CENTER)
     post.column("STL", width= 30, anchor= CENTER)
     post.column("BLK", width= 30, anchor= CENTER)
+    post.column("REB", width= 40, anchor= CENTER)
     post.column("AST", width= 30, anchor= CENTER)
-    post.column("PTS", width= 30, anchor= CENTER)
+    post.column("PTS", width= 40, anchor= CENTER)
     post.column("TO", width= 30, anchor= CENTER)
     post.column("PF", width= 30, anchor= CENTER)
-    post.column("OFF", width= 40, anchor= CENTER)
-    post.column("DEF", width= 40, anchor= CENTER)
-    post.column("OVR", width= 40, anchor= CENTER)
+    post.column("OFF", width= 30, anchor= CENTER)
+    post.column("DEF", width= 30, anchor= CENTER)
+    post.column("OVR", width= 30, anchor= CENTER)
     
     # Create Headings
     post.heading("#0", text= "", anchor= W)
@@ -304,6 +307,7 @@ def displaySeason(yr):
     post.heading("%", text = "%", anchor= CENTER)
     post.heading("STL", text = "STL", anchor= CENTER)
     post.heading("BLK", text = "BLK", anchor= CENTER)
+    post.heading("REB", text = "REB", anchor= CENTER)
     post.heading("AST", text = "AST", anchor= CENTER)
     post.heading("PTS", text = "PTS", anchor= CENTER)
     post.heading("TO", text = "TO", anchor= CENTER)
@@ -319,7 +323,7 @@ def displaySeason(yr):
         loss = post_df.at[row.Index, 'GP'] - post_df.at[row.Index, 'GW']
         winrate = round(post_df.at[row.Index, 'GW'] / post_df.at[row.Index, 'GP'], 2)
         post.insert("", END, values= (post_df.at[row.Index, 'Team'], post_df.at[row.Index, 'GW'], loss, winrate, post_df.at[row.Index, 'STL'],
-                                      post_df.at[row.Index, 'BLK'], post_df.at[row.Index, 'AST'], post_df.at[row.Index, 'PTS'], 
+                                      post_df.at[row.Index, 'BLK'], post_df.at[row.Index, 'REB'], post_df.at[row.Index, 'AST'], post_df.at[row.Index, 'PTS'], 
                                       post_df.at[row.Index, 'TO'], post_df.at[row.Index, 'PF'], int(post_df.at[row.Index, 'O NO.']),
                                       int(post_df.at[row.Index, 'D NO.']), int(post_df.at[row.Index, 'OVR NO.'])))
 
@@ -329,6 +333,7 @@ def displaySeason(yr):
     Label(root, text = description_text, font= ("Myriad", 10, "bold")).pack()
     post.pack()
     Button(root, text = "Go Back", font= text_font, width= button_width, height= button_height, command= on_seasons_and_champions).pack()
+
     
 # Create the window
 root = Tk()
